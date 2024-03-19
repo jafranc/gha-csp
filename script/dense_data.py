@@ -18,7 +18,8 @@ class Dense_Data(Data):
             self.dims = (840, 1, 120)
             self.offset = [0., 0., -1200.]
             #
-            self.schedule = np.arange(0., 1000 * Conversion.SEC2YEAR, 50 * Conversion.SEC2TENTHOFYEAR)
+            #self.schedule = np.arange(0., 1000 * Conversion.SEC2YEAR, 50 * Conversion.SEC2TENTHOFYEAR)
+            self.schedule = np.asarray([ time * Conversion.SEC2YEAR for time in [10,15,20,25,30,35] ])
             self.filename_converter, self.filename_marker = (Conversion.SEC2YEAR, 'y')
         elif version[0] == 'c':
             self.phydims = (2.8 * 3000, 5000., 1.2 * 1000 + 150)

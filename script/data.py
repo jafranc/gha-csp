@@ -36,7 +36,8 @@ class Data(metaclass=ABCMeta):
         logging.info('Init')
 
         # default is a
-        self.schedule = np.arange(0, 5 * Conversion.SEC2DAY, 0.5 * Conversion.SEC2DAY)
+        # self.schedule = np.arange(0, 5 * Conversion.SEC2DAY, 0.5 * Conversion.SEC2DAY)
+        self.schedule = np.asarray([ time * Conversion.SEC2HOUR for time in [0,20,40,60,80,100] ])
         # for GEOS
         self.name_indirection = {'pressure': 'pres',
                                  'phaseVolumeFraction_0': 'satg',
