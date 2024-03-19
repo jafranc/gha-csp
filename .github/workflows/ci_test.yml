@@ -1,0 +1,51 @@
+name: SPE11CSP CI
+
+on:
+  push:
+    branches:
+      - develop
+
+
+jobs:
+
+  test_one_group:
+
+    runs-on: ubuntu-22.04
+    name : ${{ matrix.version }}-${{ matrix.data_type }}
+    strategy:
+      fail-fast: false
+      matrix :
+        name: [ groupA ]
+        version: [ a , b ]
+        data_type : [ sparse, dense ]
+    steps :
+      - uses: actions/checkout@v4
+      - name : Setup python
+        uses: actions/setup-python@v4
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.9'
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip setuptools wheel pandas numpy matplotlib
+      - name : Running driver
+        run : python3 script/main.py --spe ${{ matrix.version }} --${{ matrix.data_type }} -i $input_dir -o $output_dir -s ${{ github.sha }} --units h g Pa
+        env:
+          input_dir :  ${{ matrix.name }}/${{ matrix.version }}/${{ matrix.data_type }}
+          output_dir : ${{ matrix.name }}/${{ matrix.version }}/${{ matrix.data_type }}/illustrations
+      - name : Download artifact
+        uses : actions/download-artifact@v2
+        with :
+          path: ${{ matrix.name }}/${{ matrix.version }}/${{ matrix.data_type }}/*.png
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Automated Change
+          branch: ${{ matrix.version }}/${{ matrix.data_type }}
+      - name: Merge ${{ matrix.version }}/${{ matrix.data_type }} -> main
+        uses: devmasx/merge-branch@master
+        with:
+           type: now
+           from_branch: ${{ matrix.version }}/${{ matrix.data_type }}
+           target_branch : main
+           github_token: ${{ secrets.GITHUB_TOKEN }}
+  
