@@ -5,6 +5,7 @@ To have your result generated please clone develop and add your results and push
 
 ``` bash
   git clone https://github.com/jafranc/gha-csp -b develop
+  cd ghs-csp
   cp /path/to/sparse/spe/a/spe11a_time_series.csv ./groupA/a/sparse/
   git add ./groupA/a/sparse/spe11a_time_series.csv
   cp /path/to/sparse/spe/a/spe11a_map_*.csv ./groupA/a/dense/
