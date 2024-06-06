@@ -46,6 +46,6 @@ jobs:
         with:
            type: now
            from_branch: ${{ matrix.version }}/${{ matrix.data_type }}
-           target_branch : main
+           target_branch : develop
            github_token: ${{ secrets.GITHUB_TOKEN }}
   
